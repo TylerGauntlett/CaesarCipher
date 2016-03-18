@@ -5,34 +5,33 @@
 
 public class CeasarCipher {
 
-	public static final int OFFSET = 97;
-	public static final int ALPHASIZE = 26;
-	static double[] table = { 8.2, 1.5, 2.8, 4.3, 12.7, 2.2, 2.0, 6.1, 7.0, 
-			0.2, 0.8, 4.0, 2.4, 6.7, 7.5, 1.9, 0.1, 6.0,
-			6.3, 9.1, 2.8, 1.0, 2.4, 0.2, 2.0, 0.1 };
+	public final int OFFSET = 97;
+	public final int ALPHASIZE = 26;
 
 	public static void main(String[] args) {
 
-		String encodemessage = "myxqbkdevkdsyxc yx mywzvodsxq dro ohkw!";
+		CeasarCipher cipher = new CeasarCipher();
+		
+		String decodemessage = "myxqbkdevkdsyxc yx mywzvodsxq dro ohkw!";
 
-		System.out.println(crack(encodemessage));
+		System.out.println(cipher.crack(decodemessage));
 
 	}
 
-	public static int let2nat(char letter) {
+	public int let2nat(char letter) {
 
 		int letterToInt = (int) letter;
 
 		return letterToInt - OFFSET;
 	}
 
-	public static char nat2let(int number) {
+	public char nat2let(int number) {
 		int totalNumber = number + OFFSET;
 
 		return (char) totalNumber;
 	}
 
-	public static char shift(int shiftAmount, char letter) {
+	public char shift(int shiftAmount, char letter) {
 		// Convert to a number using a previously made function.
 		int letterToInt = let2nat(letter);
 
@@ -71,7 +70,7 @@ public class CeasarCipher {
 		return letter;
 	}
 
-	public static String encode(int shiftAmount, String message) {
+	public String encode(int shiftAmount, String message) {
 
 		StringBuilder sb = new StringBuilder();
 
@@ -90,7 +89,7 @@ public class CeasarCipher {
 		return sb.toString();
 	}
 
-	public static String decode(int shiftAmount, String message) {
+	public String decode(int shiftAmount, String message) {
 
 		StringBuilder sb = new StringBuilder();
 		// Loop through the string.
@@ -107,7 +106,7 @@ public class CeasarCipher {
 		return sb.toString();
 	}
 
-	public static int lowers(String countLower) {
+	public int lowers(String countLower) {
 		int count = 0;
 
 		for (int i = 0; i < countLower.length(); i++) {
@@ -125,7 +124,7 @@ public class CeasarCipher {
 		return count;
 	}
 
-	public static int count(char letter, String word) {
+	public int count(char letter, String word) {
 		int count = 0;
 
 		for (int i = 0; i < word.length(); i++) {
@@ -136,7 +135,7 @@ public class CeasarCipher {
 		return count;
 	}
 
-	public static double percent(double divisor, double dividend) {
+	public double percent(double divisor, double dividend) {
 		// Divide and multiple by 100 to get the percent.
 		double unroundedAnswer = (divisor / dividend) * 100.0;
 		// Round off in the 5th decimal place.
@@ -145,7 +144,7 @@ public class CeasarCipher {
 		return roundOff;
 	}
 
-	public static double[] freqs(String word) {
+	public double[] freqs(String word) {
 		double freqForEachChar[] = new double[ALPHASIZE];
 		// Run a loop based on the size of the alphabet.
 		for (int i = 0; i < ALPHASIZE; i++) {
@@ -164,7 +163,7 @@ public class CeasarCipher {
 		return freqForEachChar;
 	}
 
-	public static double[] rotate(int amount, double[] freqArray) {
+	public double[] rotate(int amount, double[] freqArray) {
 		// Shift the array left by a given amount.
 		for (int i = 0; i < amount; i++) {
 			if (freqArray == null || freqArray.length <= 1) {
@@ -178,7 +177,11 @@ public class CeasarCipher {
 		return freqArray;
 	}
 
-	public static double chisqr(double[] observedFreq) {
+	public double chisqr(double[] observedFreq) {
+		double[] table = { 8.2, 1.5, 2.8, 4.3, 12.7, 2.2, 2.0, 6.1, 7.0, 
+			0.2, 0.8, 4.0, 2.4, 6.7, 7.5, 1.9, 0.1, 6.0,
+			6.3, 9.1, 2.8, 1.0, 2.4, 0.2, 2.0, 0.1 };
+		
 		double total = 0;
 
 		for (int i = 0; i < ALPHASIZE; i++) {
@@ -192,7 +195,7 @@ public class CeasarCipher {
 		return total;
 	}
 
-	public static int position(double value, double[] freqArray) {
+	public int position(double value, double[] freqArray) {
 		for (int i = 0; i < freqArray.length; i++) {
 			if (freqArray[i] == value)
 				return i;
@@ -201,7 +204,7 @@ public class CeasarCipher {
 		return -1;
 	}
 
-	public static String crack(String breakWord) {
+	public  String crack(String breakWord) {
 		double freqForEachChar[] = new double[ALPHASIZE];
 		double minChi = (double) Integer.MAX_VALUE;
 		String decode = "";
